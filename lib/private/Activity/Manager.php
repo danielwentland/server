@@ -27,6 +27,7 @@ namespace OC\Activity;
 use OCP\Activity\IConsumer;
 use OCP\Activity\IEvent;
 use OCP\Activity\IExtension;
+use OCP\Activity\IFilter;
 use OCP\Activity\IManager;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -235,7 +236,7 @@ class Manager implements IManager {
 	 * In order to improve lazy loading a closure can be registered which will be called in case
 	 * activity consumers are actually requested
 	 *
-	 * $callable has to return an instance of OCA\Activity\IConsumer
+	 * $callable has to return an instance of OCA\Activity\IExtension
 	 *
 	 * @param \Closure $callable
 	 * @return void
@@ -243,6 +244,29 @@ class Manager implements IManager {
 	public function registerExtension(\Closure $callable) {
 		array_push($this->extensionsClosures, $callable);
 		$this->extensions = [];
+	}
+
+	/** @var IFilter[] */
+	protected $filters;
+
+	/**
+	 * @param string $filter Class must implement OCA\Activity\IFilter
+	 * @return void
+	 */
+	public function registerFilter($filter) {
+		$this->filters[$filter] = $filter;
+	}
+
+	/**
+	 * @return IFilter[]
+	 */
+	public function getFilters() {
+		foreach ($this->filters as $class => $filter) {
+			if (is_string($filter)) {
+				$this->filters[$class] = \OC::$server->query($filter);
+			}
+		}
+		return $this->filters;
 	}
 
 	/**

@@ -111,6 +111,19 @@ interface IManager {
 	public function registerExtension(\Closure $callable);
 
 	/**
+	 * @param string $filter Class must implement OCA\Activity\IFilter
+	 * @return void
+	 * @since 9.2.0
+	 */
+	public function registerFilter($filter);
+
+	/**
+	 * @return IFilter[]
+	 * @since 9.2.0
+	 */
+	public function getFilters();
+
+	/**
 	 * Will return additional notification types as specified by other apps
 	 *
 	 * @param string $languageCode
@@ -180,6 +193,7 @@ interface IManager {
 	/**
 	 * @return array
 	 * @since 8.0.0
+	 * @deprecated Use registerFilter() instead
 	 */
 	public function getNavigation();
 
@@ -187,6 +201,7 @@ interface IManager {
 	 * @param string $filterValue
 	 * @return boolean
 	 * @since 8.0.0
+	 * @deprecated Use registerFilter() instead
 	 */
 	public function isFilterValid($filterValue);
 
@@ -195,6 +210,7 @@ interface IManager {
 	 * @param string $filter
 	 * @return array
 	 * @since 8.0.0
+	 * @deprecated Use registerFilter() instead
 	 */
 	public function filterNotificationTypes($types, $filter);
 
@@ -202,6 +218,7 @@ interface IManager {
 	 * @param string $filter
 	 * @return array
 	 * @since 8.0.0
+	 * @deprecated Use registerFilter() instead
 	 */
 	public function getQueryForFilter($filter);
 
