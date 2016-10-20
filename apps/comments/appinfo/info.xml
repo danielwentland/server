@@ -13,4 +13,10 @@
 	<types>
 		<logging/>
 	</types>
+
+	<activity>
+		<filters>
+			<filter>OCA\Comments\Activity\Filter</filter>
+		</filters>
+	</activity>
 </info>
